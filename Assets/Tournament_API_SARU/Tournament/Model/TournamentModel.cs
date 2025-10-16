@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 [System.Serializable]
 
@@ -24,6 +25,7 @@ public class TournamentModel
         {
             tournamentRound.ParseBody();
         }
+        round_data = round_data.OrderBy(x=>x.round_name).ToList();
         if(round_data[0].status == TournamentStatus.End && round_data[1].status == TournamentStatus.End)
         {
             status = TournamentStatus.End;
