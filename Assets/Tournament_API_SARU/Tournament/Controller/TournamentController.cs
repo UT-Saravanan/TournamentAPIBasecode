@@ -57,10 +57,7 @@ public class TournamentController
                     int index = TournamentList.FindIndex(x => x.tournament_id == updatedtournament.tournament_id);
 
                     TournamentList[index].round_data = updatedtournament.round_data;
-                    if (TournamentList[index].round_data[1].status == TournamentStatus.End)
-                    {
-                        TournamentList[index].status = TournamentStatus.End;
-                    }
+
                     TournamentManager.instance.OnUpdateSingleTournamentUpdate[TournamentList[index].tournament_id]?.Invoke(TournamentList[index]);
 
                     Debug.Log("invoke tournamnet changes :::  single tournament update");
@@ -103,10 +100,7 @@ public class TournamentController
                     int index = TournamentList.FindIndex(x => x.tournament_id == updatedtournament.tournament_id);
 
                     TournamentList[index].round_data = updatedtournament.round_data;
-                    if (TournamentList[index].round_data[1].status == TournamentStatus.End)
-                    {
-                        TournamentList[index].status = TournamentStatus.End;
-                    }
+     
                     TournamentList[index].action?.Invoke(TournamentList[index]);
 
                     Debug.Log("invoke tournamnet changes :::  single tournament update");
@@ -171,7 +165,7 @@ public class TournamentController
     {
 
 
-        var t_list = from tournament in TournamentList where (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].closed_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Live) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[1].closed_at) <= dateTime && tournament.round_data[1].status == TournamentStatus.Live) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].start_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Upcoming) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[1].start_at) <= dateTime && tournament.round_data[1].status == TournamentStatus.Upcoming) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].result_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Running) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[1].result_at) <= dateTime && tournament.round_data[1].status == TournamentStatus.Running) select tournament;
+        var t_list = from tournament in TournamentList where (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].closed_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Live) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].start_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Upcoming) || (TimerHelper.UtcStringToDateTimeUtc(tournament.round_data[0].result_at) <= dateTime && tournament.round_data[0].status == TournamentStatus.Running) select tournament;
 
         var tournament_list = t_list.ToList();
         Debug.Log("validate tournament " + dateTime + "current tournament list is " + tournament_list.Count + " :::: data is :: " + JsonConvert.SerializeObject(tournament_list));
@@ -185,15 +179,12 @@ public class TournamentController
                 int index = TournamentList.FindIndex(x => x.tournament_id == updatedtournament.tournament_id);
 
                 TournamentList[index].round_data = updatedtournament.round_data;
-                if (TournamentList[index].round_data[1].status == TournamentStatus.End)
-                {
-                    TournamentList[index].status = TournamentStatus.End;
-                }
+
                 TournamentManager.instance.OnUpdateSingleTournamentUpdate[TournamentList[index].tournament_id]?.Invoke(TournamentList[index]);
                 //                TournamentList[index].action?.Invoke(TournamentList[index]);
                 TournamentModel nextTournament = TournamentList
-            .Where(t => t.round_data[1].status == TournamentStatus.Live || t.round_data[0].status == TournamentStatus.Live)
-            .OrderBy(t => t.round_data[1].closed_at)
+            .Where(t => t.round_data[0].status == TournamentStatus.Live)
+            .OrderBy(t => t.round_data[0].closed_at)
             .FirstOrDefault();
 
                 int nextTournamentIndex = TournamentList.FindIndex(x => x.tournament_id == nextTournament.tournament_id);
@@ -267,11 +258,11 @@ public class TournamentController
                 }
 
                 LiveTournamentList = TournamentList
-                .Where(t => t.round_data[0].ticket.total_count + t.round_data[1].ticket.total_count != 0)
+                .Where(t => t.round_data[0].ticket.total_count != 0)
                 .OrderBy(t => t.round_data[0].closed_at)
                 .ToList();
                 TournamentModel nextTournament = TournamentList
-                .Where(t => t.round_data[1].status == TournamentStatus.Live || t.round_data[0].status == TournamentStatus.Live)
+                .Where(t => t.round_data[0].status == TournamentStatus.Live)
                 .OrderBy(t => t.round_data[0].closed_at).FirstOrDefault();
                 int nextTournamentIndex = TournamentList.FindIndex(x => x.tournament_id == nextTournament.tournament_id);
 

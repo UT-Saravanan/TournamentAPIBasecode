@@ -29,7 +29,7 @@ public class TournamentModel
         round_data = round_data.OrderBy(x=>x.round_name).ToList();
         if(round_data.Count == 2)
         {
-            if (round_data[0].status == TournamentStatus.End && round_data[1].status == TournamentStatus.End)
+            if (round_data[0].status == TournamentStatus.End)
             {
                 status = TournamentStatus.End;
             }
@@ -74,17 +74,13 @@ public class TournamentRoundModel
         tickets = JsonConvert.DeserializeObject<List<TicketList>>(ticket_data);
         if (ticket_data.Length > 20 && tickets.Count == 3)
         {
-            ticket.direct_number = tickets[0].direct_number ?? tickets[1].direct_number ?? tickets[2].direct_number;
-            ticket.ending = tickets[0].ending ?? tickets[1].ending ?? tickets[2].ending;
-            ticket.housing = tickets[0].housing ?? tickets[1].housing ?? tickets[2].housing;
-            ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
+            ticket.direct_number = tickets[0].direct_number;
+            ticket.total_count = ticket.direct_number.Count;
         }
         else if (ticket_data.Length > 10 && tickets.Count == 1)
         {
             ticket.direct_number = tickets[0].direct_number;
-            ticket.ending = tickets[0].ending;
-            ticket.housing = tickets[0].housing;
-            ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
+            ticket.total_count = ticket.direct_number.Count;
 
         }
 
@@ -143,11 +139,9 @@ public class BetHistoryModel
         Debug.Log("ParseBody==> " + ticket_data.Length + " === " + tickets.Count);
         if (ticket_data.Length > 20 && tickets.Count == 3)
         {
-            ticket.direct_number = tickets[0].direct_number ?? tickets[1].direct_number ?? tickets[2].direct_number;
-            ticket.ending = tickets[0].ending ?? tickets[1].ending ?? tickets[2].ending;
-            ticket.housing = tickets[0].housing ?? tickets[1].housing ?? tickets[2].housing;
+            ticket.direct_number = tickets[0].direct_number;
 
-            ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
+            ticket.total_count = ticket.direct_number.Count;
             Debug.Log("ParseBody==> " + ticket.total_count + " == ");
         }
 
@@ -167,11 +161,7 @@ public class TicketInfo
 
 public class TicketList
 {
-    [SerializeField]
 
-    public List<TicketInfo> ending;
-    [SerializeField]
-    public List<TicketInfo> housing;
     [SerializeField]
     public List<TicketInfo> direct_number;
     public int total_count;

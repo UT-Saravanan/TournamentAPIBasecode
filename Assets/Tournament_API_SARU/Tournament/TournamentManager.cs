@@ -55,7 +55,7 @@ public class TournamentManager : MonoBehaviour
     }
     private void Start()
     {
-        //FetchTour();
+        FetchTour();
     }
     private void OnDisable()
     {
@@ -154,6 +154,6 @@ public class TournamentManager : MonoBehaviour
     [ContextMenu("Load Live")]
     public void LoadLive()
     {
-        TournamentFound = tournament.TournamentList.Find(x => x.round_data[0].isLive || x.round_data[1].isLive);
+        TournamentFound = tournament.TournamentList.Find(x => x.round_data[0].isLive);
     }
 }
