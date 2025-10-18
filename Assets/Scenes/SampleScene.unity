@@ -465,9 +465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c24c93feab64c128ec3529b9cac178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webapi: {fileID: 132876224}
   tournament:
-    APIURL: https://d86vo3ohx1r0e.cloudfront.net/
+    APIURL: http://d1c6xsqnsekzz4.cloudfront.net/
     formant:
       success: 1
       response:
@@ -689,6 +688,7 @@ MonoBehaviour:
             shillong 13-10-2025, 03:30:00 AM","entry_fee":5,"tournament_id":"476d421d-1a07-4905-8c06-49b8287f18b7","match_token":"3965","game_name":"TeerShillong","round_data":[{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T03:30:00.000Z","result_at":"2025-10-13T03:32:00.000Z","ticket_id":null,"round_name":"1","result_data":"{\"result\":770}","ticket_data":null},{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T03:45:00.000Z","result_at":"2025-10-13T03:47:00.000Z","ticket_id":null,"round_name":"2","result_data":"{\"result\":846}","ticket_data":null}]},{"id":"12345","tournament_name":"teer
             shillong 13-10-2025, 03:00:00 AM","entry_fee":5,"tournament_id":"577160fa-4eaf-4f84-8be4-074b4bab7d6b","match_token":"3963","game_name":"TeerShillong","round_data":[{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T03:00:00.000Z","result_at":"2025-10-13T03:02:00.000Z","ticket_id":null,"round_name":"1","result_data":"{\"result\":786}","ticket_data":null},{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T03:15:00.000Z","result_at":"2025-10-13T03:17:00.000Z","ticket_id":null,"round_name":"2","result_data":"{\"result\":1039}","ticket_data":null}]},{"id":"12343","tournament_name":"teer
             shillong 13-10-2025, 02:30:00 AM","entry_fee":5,"tournament_id":"ff94ef86-4e4d-4115-9c40-f36fa3cb208f","match_token":"3961","game_name":"TeerShillong","round_data":[{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T02:30:00.000Z","result_at":"2025-10-13T02:32:00.000Z","ticket_id":null,"round_name":"1","result_data":"{\"result\":1019}","ticket_data":null},{"status":"End","start_at":"2025-10-13T00:30:00.000Z","closed_at":"2025-10-13T02:45:00.000Z","result_at":"2025-10-13T02:47:00.000Z","ticket_id":null,"round_name":"2","result_data":"{\"result\":849}","ticket_data":null}]}]'
+    userID: 
     TournamentList: []
     betHistory:
       betHistories: []
@@ -703,6 +703,7 @@ MonoBehaviour:
             message: Ticket fetch successfully
             data: '[{"id":"1836","tournament_id":"4e203dfd-7e39-493d-a7b1-3a047e467625","round_id":"1","user_id":"cb5d2c8a-9217-4566-9c4c-2e57b7f03b93","ticket_data":"[{\"ending\":[]},{\"housing\":[]},{\"direct_number\":[{\"value\":\"9\",\"amount\":20,\"created_at\":\"2025-10-14T23:14:14.427Z\",\"updated_at\":\"2025-10-14T23:14:14.427Z\"},{\"value\":\"10\",\"amount\":10,\"created_at\":\"2025-10-14T23:14:14.427Z\",\"updated_at\":\"2025-10-14T23:14:14.427Z\"},{\"value\":\"11\",\"amount\":20,\"created_at\":\"2025-10-14T23:14:14.427Z\",\"updated_at\":\"2025-10-14T23:14:14.427Z\"}]}]","entry_amount":50,"winning_amount":0,"winning_data":"{\"result\":855}","created_at":"2025-10-14T23:14:14.000Z","ticket_id":"ad52c681-785e-4deb-9369-4cd809dff847","tournament_name":"teer
               shillong 14-10-2025, 04:45:00 AM","start_at":"2025-10-14T00:30:00.000Z","closed_at":"2025-10-14T23:30:00.000Z","result_at":"2025-10-14T23:32:00.000Z","game_name":"TeerShillong","player_name":"8585866666"}]'
+    output: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

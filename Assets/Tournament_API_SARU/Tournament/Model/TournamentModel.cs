@@ -24,7 +24,7 @@ public class TournamentModel
         {
             tournamentRound.ParseBody();
         }
-        if(round_data[0].status == TournamentStatus.End && round_data[1].status == TournamentStatus.End)
+        if (round_data[0].status == TournamentStatus.End)
         {
             status = TournamentStatus.End;
         }
