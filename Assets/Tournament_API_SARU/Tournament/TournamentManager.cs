@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TournamentManager : MonoBehaviour
 {
@@ -12,8 +13,16 @@ public class TournamentManager : MonoBehaviour
     public Action<List<BetHistoryModel>> OnUpdateBetHistory;
     public Dictionary<string, Action<TournamentModel>> OnUpdateSingleTournamentUpdate = new Dictionary<string, Action<TournamentModel>>();
     public static TournamentManager instance;
-    
 
+
+    public void AddTicket(string tournament_id, string round_id, string session_token, TicketList ticket_data, int amount, string userToken, string currency, string meta_data, Action<bool, string> action ,string user_id)
+    {
+        tournament.BuyTicketsForTournament(tournament_id,round_id,session_token,ticket_data,amount,userToken,currency,meta_data,action,user_id);
+    }
+    public void CancelTicket(string ticket_id, string tournament_id, string session_token, string userToken, string currency, Action<bool, string> action, string user_id)
+    {
+        tournament.CancelTournamentTicket(ticket_id, tournament_id, session_token, userToken, currency, action, user_id);
+    }
     public void LoadAllTournamentData(string user_id)
     {
 
@@ -46,7 +55,7 @@ public class TournamentManager : MonoBehaviour
     }
     private void Start()
     {
-        FetchTour();
+        //FetchTour();
     }
     private void OnDisable()
     {
@@ -63,7 +72,7 @@ public class TournamentManager : MonoBehaviour
     }
     bool isLoadingTournament = false;
     int trycount = 0;
-    
+
     void ResetFetch()
     {
         trycount = 0;
@@ -73,7 +82,7 @@ public class TournamentManager : MonoBehaviour
     {
         tournament.FetchTournamentData(userID, (success, data) =>
         {
-            if(success)
+            if (success)
             {
                 TimerHelper.instance.CronForEveryOneMin += tournament.ValidateTournament;
                 tournament.userID = userID;
@@ -90,9 +99,9 @@ public class TournamentManager : MonoBehaviour
             {
                 Debug.Log("error while fetch data");
                 trycount += 1;
-                if(trycount > 3)
+                if (trycount > 3)
                 {
-                    Invoke(nameof(LoadTournamentData),2);
+                    Invoke(nameof(LoadTournamentData), 2);
                 }
                 else
                 {
@@ -107,4 +116,44 @@ public class TournamentManager : MonoBehaviour
     }
 
 
+    [ContextMenu("load bet")]
+    void LoadBetData()
+    {
+        tournament.betHistory.GetTournamentBetList(tournament.APIURL,userID, (success) =>
+        {
+            if (success)
+            {
+            
+                OnUpdateBetHistory?.Invoke(tournament.betHistory.betHistories);
+              
+                Debug.Log("invoke tournamnet changes :::  OnUpdateBetHistory");
+           
+            }
+
+        });
+
+    }
+
+
+
+
+    [ContextMenu("Test This ===> ")]
+    public void Test()
+    {
+        tournament.TestCase();
+    }
+
+    [SerializeField]
+    public TournamentModel TournamentFound = new TournamentModel();
+    public string findTournamet;
+    [ContextMenu("Find Tournament")]
+    public void FindFournament()
+    {
+        TournamentFound = tournament.TournamentList.Find(x => x.id == findTournamet);
+    }
+    [ContextMenu("Load Live")]
+    public void LoadLive()
+    {
+        TournamentFound = tournament.TournamentList.Find(x => x.round_data[0].isLive || x.round_data[1].isLive);
+    }
 }
