@@ -165,10 +165,6 @@ public class WebApiManager : MonoBehaviour
     private IEnumerator PostRequestUsingJson(string url, string body, ReqCallback callback, int timeout = 5, bool check = false)
     {
         string jsonData = body;
-        if (!check)
-        {
-            Debug.LogWarning($"<color=yellow>{jsonData}\n{url}</color>");
-        }
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
@@ -179,6 +175,7 @@ public class WebApiManager : MonoBehaviour
             request.timeout = timeout;
 
             yield return request.SendWebRequest();
+            Debug.Log($"<color=yellow>API Request Response ::: {jsonData}\n{url}</color>\nresponse is : {request.downloadHandler.text}");
 
             callback(request.result == UnityWebRequest.Result.Success, request.error, request.downloadHandler.text);
 

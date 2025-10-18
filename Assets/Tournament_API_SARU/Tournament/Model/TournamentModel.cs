@@ -16,6 +16,7 @@ public class TournamentModel
     public string tournament_id;
     public string match_token;
     public string game_name;
+    [JsonIgnore]
     public Action<TournamentModel> action;
     [SerializeField]
     public List<TournamentRoundModel> round_data = new List<TournamentRoundModel>();
@@ -26,13 +27,17 @@ public class TournamentModel
             tournamentRound.ParseBody();
         }
         round_data = round_data.OrderBy(x=>x.round_name).ToList();
-        if(round_data[0].status == TournamentStatus.End && round_data[1].status == TournamentStatus.End)
+        if(round_data.Count == 2)
         {
-            status = TournamentStatus.End;
-        }
-        else
-        {
-            status = TournamentStatus.Upcoming;
+            if (round_data[0].status == TournamentStatus.End && round_data[1].status == TournamentStatus.End)
+            {
+                status = TournamentStatus.End;
+            }
+            else
+            {
+                status = TournamentStatus.Upcoming;
+            }
+
         }
     }
 }
@@ -43,6 +48,7 @@ public class TournamentRoundModel
     [SerializeField]
 
     public TournamentStatus status;
+    public bool isLive;
     public string start_time;
     public string closed_time;
     public string result_time;
@@ -66,12 +72,24 @@ public class TournamentRoundModel
         if (ticket_data == null)
             ticket_data = "";
         tickets = JsonConvert.DeserializeObject<List<TicketList>>(ticket_data);
-        if(ticket_data.Length > 20 && tickets.Count == 3)
+        if (ticket_data.Length > 20 && tickets.Count == 3)
         {
             ticket.direct_number = tickets[0].direct_number ?? tickets[1].direct_number ?? tickets[2].direct_number;
             ticket.ending = tickets[0].ending ?? tickets[1].ending ?? tickets[2].ending;
             ticket.housing = tickets[0].housing ?? tickets[1].housing ?? tickets[2].housing;
+            ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
         }
+        else if (ticket_data.Length > 10 && tickets.Count == 1)
+        {
+            ticket.direct_number = tickets[0].direct_number;
+            ticket.ending = tickets[0].ending;
+            ticket.housing = tickets[0].housing;
+            ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
+
+        }
+
+        Debug.Log("=======> " + TimerHelper.UtcStringToDateTimeUtc(closed_at) + " ====== " + TimerHelper.UtcStringToDateTimeUtc(result_at) + " ==== " + TimerHelper.GetCurrentAdjustedUtc());
+        isLive = (TimerHelper.UtcStringToDateTimeUtc(closed_at) <= TimerHelper.GetCurrentAdjustedUtc() && TimerHelper.UtcStringToDateTimeUtc(result_at) >= TimerHelper.GetCurrentAdjustedUtc());
 
     }
 
@@ -122,6 +140,7 @@ public class BetHistoryModel
         if (ticket_data == null)
             ticket_data = "";
         tickets = JsonConvert.DeserializeObject<List<TicketList>>(ticket_data);
+        Debug.Log("ParseBody==> " + ticket_data.Length + " === " + tickets.Count);
         if (ticket_data.Length > 20 && tickets.Count == 3)
         {
             ticket.direct_number = tickets[0].direct_number ?? tickets[1].direct_number ?? tickets[2].direct_number;
@@ -129,6 +148,7 @@ public class BetHistoryModel
             ticket.housing = tickets[0].housing ?? tickets[1].housing ?? tickets[2].housing;
 
             ticket.total_count = ticket.direct_number.Count + ticket.ending.Count + ticket.housing.Count;
+            Debug.Log("ParseBody==> " + ticket.total_count + " == ");
         }
 
     }
